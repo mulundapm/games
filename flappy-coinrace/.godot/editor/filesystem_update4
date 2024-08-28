@@ -1,0 +1,10 @@
+res://scenes/main.tscn
+res://scenes/bukcoin.gd
+res://scenes/pipe.tscn
+res://scenes/ground.tscn
+res://scenes/game_over.tscn
+res://scenes/bird.tscn
+res://scenes/bukcoin.tscn
+res://scenes/main.gd
+res://scenes/character.tscn
+res://scenes/character.gd

@@ -1,27 +1,30 @@
-[gd_scene load_steps=7 format=3 uid="uid://dqmy61tqsci4o"]
+[gd_scene load_steps=8 format=3 uid="uid://dqmy61tqsci4o"]
 
-[ext_resource type="Texture2D" uid="uid://b6efsmi462xlj" path="res://assets/bg.png" id="1_omxxu"]
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_wr14e"]
 [ext_resource type="PackedScene" uid="uid://dvfe6udokxjs" path="res://scenes/pipe.tscn" id="2_w3ae3"]
-[ext_resource type="PackedScene" uid="uid://bnj0ojs06o80k" path="res://scenes/bird.tscn" id="3_dwr55"]
+[ext_resource type="PackedScene" uid="uid://bnj0ojs06o80k" path="res://scenes/character.tscn" id="3_dwr55"]
 [ext_resource type="PackedScene" uid="uid://cxgfw3v4pocbh" path="res://scenes/ground.tscn" id="4_2v71p"]
+[ext_resource type="Texture2D" uid="uid://bfadsy0ouwhb4" path="res://assets/BG.jpg" id="4_ab8wv"]
 [ext_resource type="PackedScene" uid="uid://doiqmrhoih11y" path="res://scenes/game_over.tscn" id="6_6p3cl"]
+[ext_resource type="PackedScene" uid="uid://w1ftmharhruk" path="res://scenes/bukcoin.tscn" id="7_h2bna"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_wr14e")
 pipe_scene = ExtResource("2_w3ae3")
+bukcoin_scene = ExtResource("7_h2bna")
 
 [node name="Background" type="Sprite2D" parent="."]
-texture = ExtResource("1_omxxu")
-offset = Vector2(432, 384)
+texture = ExtResource("4_ab8wv")
+offset = Vector2(540, 800)
 
-[node name="Bird" parent="." instance=ExtResource("3_dwr55")]
+[node name="Character" parent="." instance=ExtResource("3_dwr55")]
 
 [node name="Ground" parent="." instance=ExtResource("4_2v71p")]
 z_index = 1
+position = Vector2(0, 3)
 
 [node name="PipeTimer" type="Timer" parent="."]
-wait_time = 3.0
+wait_time = 1.25
 
 [node name="ScoreLabel" type="Label" parent="."]
 z_index = 1
@@ -38,6 +41,10 @@ text = "Score: 0"
 
 [node name="GameOver" parent="." instance=ExtResource("6_6p3cl")]
 
+[node name="BukcoinTimer" type="Timer" parent="."]
+wait_time = 2.0
+
 [connection signal="hit" from="Ground" to="." method="_on_ground_hit"]
 [connection signal="timeout" from="PipeTimer" to="." method="_on_pipe_timer_timeout"]
 [connection signal="restart" from="GameOver" to="." method="_on_game_over_restart"]
+[connection signal="timeout" from="BukcoinTimer" to="." method="_on_bukcoin_timer_timeout"]
