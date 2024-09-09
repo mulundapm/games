@@ -1,18 +1,36 @@
-[gd_scene load_steps=4 format=3 uid="uid://cgh4h18vln14y"]
+[gd_scene load_steps=6 format=3 uid="uid://cgh4h18vln14y"]
 
 [ext_resource type="Script" path="res://scene/character.gd" id="1_1covy"]
-[ext_resource type="Texture2D" uid="uid://jukiwvs1p1xg" path="res://assets/Character.jpg" id="2_qfdxm"]
+[ext_resource type="Texture2D" uid="uid://bgncap0gtosyk" path="res://assets/person1.png" id="2_ck1pt"]
+[ext_resource type="Texture2D" uid="uid://cgkl12cfrpj5p" path="res://assets/person2.png" id="3_dpm6n"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ux8ih"]
-size = Vector2(185, 228)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xtal0"]
+radius = 81.5
+height = 244.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xovq3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ck1pt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_dpm6n")
+}],
+"loop": true,
+"name": &"walking_right",
+"speed": 5.0
+}]
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_1covy")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(264, 408)
-texture = ExtResource("2_qfdxm")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(264.5, 408)
-shape = SubResource("RectangleShape2D_ux8ih")
+shape = SubResource("CapsuleShape2D_xtal0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(288, 400)
+scale = Vector2(2.73438, 2.73438)
+sprite_frames = SubResource("SpriteFrames_xovq3")
+animation = &"walking_right"

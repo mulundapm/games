@@ -1,14 +1,28 @@
-[gd_scene load_steps=10 format=3 uid="uid://vij5ols5id75"]
+[gd_scene load_steps=18 format=3 uid="uid://vij5ols5id75"]
 
 [ext_resource type="Script" path="res://scene/main.gd" id="1_j5q2f"]
-[ext_resource type="Texture2D" uid="uid://b5axewl54kyop" path="res://assets/Background.jpg" id="1_lafx8"]
 [ext_resource type="PackedScene" uid="uid://cgh4h18vln14y" path="res://scene/character.tscn" id="1_ncm6j"]
 [ext_resource type="PackedScene" uid="uid://ducgh8oa6r1k" path="res://scene/object.tscn" id="2_g2u86"]
 [ext_resource type="PackedScene" uid="uid://byfmokr8x778p" path="res://scene/floor.tscn" id="3_aypj3"]
 [ext_resource type="PackedScene" uid="uid://cco6uf13q5ccs" path="res://scene/platform.tscn" id="5_2s0wu"]
+[ext_resource type="Texture2D" uid="uid://xu2282v6vjtv" path="res://assets/background.png" id="5_vxsl5"]
 [ext_resource type="PackedScene" uid="uid://2klbinloj5v5" path="res://scene/gameover.tscn" id="6_4kamh"]
 [ext_resource type="PackedScene" uid="uid://50agnoit3ofc" path="res://scene/score_label.tscn" id="7_v7d7m"]
 [ext_resource type="PackedScene" uid="uid://46h31b3kqjr6" path="res://scene/coin.tscn" id="9_dyesi"]
+[ext_resource type="Texture2D" uid="uid://dhqbdwdy230ib" path="res://assets/heart.png" id="10_3f0u1"]
+[ext_resource type="Script" path="res://scene/heart.gd" id="11_5urk1"]
+[ext_resource type="Texture2D" uid="uid://dbvcviwt1p4cd" path="res://assets/Gamelogo.png" id="12_k5hfd"]
+[ext_resource type="Texture2D" uid="uid://d3ug4f7t7g4eb" path="res://assets/Start.png" id="12_vkp8w"]
+[ext_resource type="Texture2D" uid="uid://d0efpnk0sdalc" path="res://assets/Start_pressed.png" id="13_palkw"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kgcvi"]
+texture = ExtResource("12_vkp8w")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_abwqw"]
+texture = ExtResource("13_palkw")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hcrsh"]
+texture = ExtResource("12_vkp8w")
 
 [node name="Main" type="Node2D"]
 script = ExtResource("1_j5q2f")
@@ -20,10 +34,12 @@ z_index = 1
 position = Vector2(961, 435)
 
 [node name="Background" type="Sprite2D" parent="."]
-position = Vector2(961, 435)
-texture = ExtResource("1_lafx8")
+position = Vector2(958, 431)
+scale = Vector2(1.85742, 1.02398)
+texture = ExtResource("5_vxsl5")
 
 [node name="Floor" parent="." instance=ExtResource("3_aypj3")]
+position = Vector2(0, -17)
 
 [node name="platform" parent="." instance=ExtResource("5_2s0wu")]
 
@@ -33,9 +49,9 @@ texture = ExtResource("1_lafx8")
 
 [node name="ObjectTimer" type="Timer" parent="."]
 wait_time = 2.0
-autostart = true
 
 [node name="LifeCounter" type="Label" parent="."]
+visible = false
 offset_left = 829.0
 offset_top = 109.0
 offset_right = 1045.0
@@ -44,5 +60,44 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 40
 text = "Lives left: 3"
 
+[node name="Heart" type="HBoxContainer" parent="."]
+offset_left = 1600.0
+offset_top = 50.0
+offset_right = 2553.0
+offset_bottom = 313.0
+scale = Vector2(0.25, 0.25)
+script = ExtResource("11_5urk1")
+
+[node name="1" type="TextureRect" parent="Heart"]
+layout_mode = 2
+texture = ExtResource("10_3f0u1")
+
+[node name="2" type="TextureRect" parent="Heart"]
+layout_mode = 2
+texture = ExtResource("10_3f0u1")
+
+[node name="3" type="TextureRect" parent="Heart"]
+layout_mode = 2
+texture = ExtResource("10_3f0u1")
+
+[node name="Start" type="CanvasLayer" parent="."]
+
+[node name="gameLogo" type="TextureRect" parent="Start"]
+offset_left = -83.0
+offset_top = -114.0
+offset_right = 1965.0
+offset_bottom = 1038.0
+texture = ExtResource("12_k5hfd")
+
+[node name="start" type="Button" parent="Start"]
+offset_left = 132.0
+offset_top = 168.0
+offset_right = 1874.0
+offset_bottom = 1150.0
+theme_override_styles/hover = SubResource("StyleBoxTexture_kgcvi")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_abwqw")
+theme_override_styles/normal = SubResource("StyleBoxTexture_hcrsh")
+
 [connection signal="restart" from="gameover" to="." method="_on_gameover_restart"]
 [connection signal="timeout" from="ObjectTimer" to="." method="_on_object_timer_timeout"]
+[connection signal="pressed" from="Start/start" to="." method="_on_start_pressed"]

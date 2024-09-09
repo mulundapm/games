@@ -1,5 +1,5 @@
 extends Area2D
-var DROP_SPEED = randi_range(5,7)
+var DROP_SPEED = randi_range(5,10)
 
 signal collected
 signal disappear

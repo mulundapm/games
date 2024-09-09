@@ -1,20 +1,22 @@
 [gd_scene load_steps=4 format=3 uid="uid://ducgh8oa6r1k"]
 
-[ext_resource type="Texture2D" uid="uid://bvf5p15o43xc2" path="res://assets/Object.jpg" id="1_y1pin"]
 [ext_resource type="Script" path="res://scene/object.gd" id="1_y4i00"]
+[ext_resource type="Texture2D" uid="uid://bue5wpy8m7c2n" path="res://assets/Sushi.png" id="2_s2hw5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j7vdu"]
-size = Vector2(135, 135)
+size = Vector2(139, 97)
 
 [node name="object" type="Area2D"]
 z_index = 2
 script = ExtResource("1_y4i00")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_y1pin")
+position = Vector2(-6.875, -6.875)
+scale = Vector2(0.577083, 0.577083)
+texture = ExtResource("2_s2hw5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0.5, 0.5)
+position = Vector2(-1.5, -3.5)
 shape = SubResource("RectangleShape2D_j7vdu")
 
 [node name="DisappearTimer" type="Timer" parent="."]
