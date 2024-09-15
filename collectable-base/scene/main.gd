@@ -2,32 +2,42 @@ extends Node2D
 var score
 var lives
 var objects : Array
-var coins : Array
 var screen_size : Vector2i
 var ground_height : int
 const GRAVITY = 1500
 const OBJECT_DELAY = 300
+var game_running: bool
 
 @export var object_scene: PackedScene
-@export var coin_scene: PackedScene
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	screen_size = get_window().size
-	#ground_height = $Ground.get_node("Sprite2D").texture.get_height()
+	score = 0
+	lives = 3
+	game_running = false
+	$gameover.hide()
+
+func _on_start_pressed() -> void:
 	new_game()
+	$StartScreen.hide()
 
 func new_game():
 	score = 0
 	lives = 3
-	$ScoreLabel.text = "Score : " + str(score)
-	$LifeCounter.text = "Lives left : " + str(lives)
+	game_running = true
 	$CharacterBody2D.reset()
+	$ScoreLabel.text = "Score : " + str(score)
 	generate_object()
-	generate_coin()
-	$ObjectTimer.start
-	
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+	$ObjectTimer.start()
+	#Clear objects from previous rounds
+	get_tree().call_group("objects", "queue_free")
+	objects.clear()
 
+#Use ObjectTimer node to generate object based on timer
+func _on_object_timer_timeout():
+	generate_object()
+	
 #Generating object falling from sky
 func generate_object():
 	var object = object_scene.instantiate()
@@ -38,32 +48,24 @@ func generate_object():
 	object.collected.connect(scored)
 	object.disappear.connect(loseLife)
 
-func _on_object_timer_timeout():
-	generate_object()
+#When restart button is clicked
 
-func _on_gameover_restart() -> void:
-	new_game()
-
-	
 func scored():
 	score += 1
 	$ScoreLabel.text = "Score : " + str(score)
 
-func earnLife():
-	if lives < 3:
-		lives += 1
-		$LifeCounter.text = "Lives left : " + str(lives)
-
 func loseLife():
-	if lives > 0:
+	if lives > 1: 
 		lives -= 1
-		$LifeCounter.text = "Lives left : " + str(lives)
+	elif lives == 1:
+		lives -= 1
+		stop_game()
 
-func generate_coin():
-	var coin = coin_scene.instantiate()
-	add_child(coin)
-	coins.append(coin)
-	coin.genCoin.connect(generate_coin)
-	coin.coinCollected.connect(earnLife)
+func stop_game():
+	$gameover.show()
+	$ObjectTimer.stop()
+	game_running = false
 
-	
+func _on_gameover_restart() -> void:
+	new_game()
+	$gameover.hide()

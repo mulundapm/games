@@ -1,0 +1,91 @@
+[gd_scene load_steps=17 format=3 uid="uid://vij5ols5id75"]
+
+[ext_resource type="Script" path="res://scene/main.gd" id="1_j5q2f"]
+[ext_resource type="Texture2D" uid="uid://b5axewl54kyop" path="res://assets/Background.jpg" id="1_lafx8"]
+[ext_resource type="PackedScene" uid="uid://cgh4h18vln14y" path="res://scene/character.tscn" id="1_ncm6j"]
+[ext_resource type="PackedScene" uid="uid://ducgh8oa6r1k" path="res://scene/object.tscn" id="2_g2u86"]
+[ext_resource type="PackedScene" uid="uid://byfmokr8x778p" path="res://scene/floor.tscn" id="3_aypj3"]
+[ext_resource type="PackedScene" uid="uid://cco6uf13q5ccs" path="res://scene/platform.tscn" id="5_2s0wu"]
+[ext_resource type="PackedScene" uid="uid://2klbinloj5v5" path="res://scene/gameover.tscn" id="6_4kamh"]
+[ext_resource type="PackedScene" uid="uid://50agnoit3ofc" path="res://scene/score_label.tscn" id="7_v7d7m"]
+[ext_resource type="Texture2D" uid="uid://35bjocdvdfdi" path="res://assets/heart.png" id="9_d1i8k"]
+[ext_resource type="Script" path="res://scene/heart.gd" id="9_sep3d"]
+[ext_resource type="Texture2D" uid="uid://cw120h65mtbtq" path="res://assets/Start.png" id="11_ysrk3"]
+[ext_resource type="Texture2D" uid="uid://crawsqrc13oil" path="res://assets/Start_pressed.png" id="12_8mxrp"]
+[ext_resource type="PackedScene" uid="uid://700cxkuhlpfl" path="res://scene/touch_controls.tscn" id="13_a7h1i"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_upse7"]
+texture = ExtResource("11_ysrk3")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ncli4"]
+texture = ExtResource("12_8mxrp")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_noyxm"]
+texture = ExtResource("11_ysrk3")
+
+[node name="Main" type="Node2D"]
+script = ExtResource("1_j5q2f")
+object_scene = ExtResource("2_g2u86")
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("1_ncm6j")]
+z_index = 1
+position = Vector2(961, 435)
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(961, 435)
+texture = ExtResource("1_lafx8")
+
+[node name="Floor" parent="." instance=ExtResource("3_aypj3")]
+
+[node name="platform" parent="." instance=ExtResource("5_2s0wu")]
+
+[node name="gameover" parent="." instance=ExtResource("6_4kamh")]
+
+[node name="ScoreLabel" parent="." instance=ExtResource("7_v7d7m")]
+
+[node name="ObjectTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="Heart" type="HBoxContainer" parent="."]
+offset_left = 1600.0
+offset_top = 20.0
+offset_right = 2553.0
+offset_bottom = 283.0
+scale = Vector2(0.25, 0.25)
+script = ExtResource("9_sep3d")
+
+[node name="1" type="TextureRect" parent="Heart"]
+layout_mode = 2
+texture = ExtResource("9_d1i8k")
+
+[node name="2" type="TextureRect" parent="Heart"]
+layout_mode = 2
+texture = ExtResource("9_d1i8k")
+
+[node name="3" type="TextureRect" parent="Heart"]
+layout_mode = 2
+texture = ExtResource("9_d1i8k")
+
+[node name="StartScreen" type="CanvasLayer" parent="."]
+
+[node name="start" type="Button" parent="StartScreen"]
+offset_left = 657.0
+offset_top = 675.0
+offset_right = 1197.0
+offset_bottom = 843.0
+theme_override_styles/hover = SubResource("StyleBoxTexture_upse7")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_ncli4")
+theme_override_styles/normal = SubResource("StyleBoxTexture_noyxm")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TouchControls" parent="Control" instance=ExtResource("13_a7h1i")]
+
+[connection signal="restart" from="gameover" to="." method="_on_gameover_restart"]
+[connection signal="timeout" from="ObjectTimer" to="." method="_on_object_timer_timeout"]
+[connection signal="pressed" from="StartScreen/start" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="StartScreen/start" to="." method="_on_start_pressed"]

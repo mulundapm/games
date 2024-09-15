@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://2klbinloj5v5"]
+[gd_scene load_steps=8 format=3 uid="uid://2klbinloj5v5"]
 
 [ext_resource type="Script" path="res://scene/gameover.gd" id="1_apjk0"]
 [ext_resource type="Texture2D" uid="uid://uaa7tdxjqvoq" path="res://assets/Restart.jpg" id="2_5rjp3"]
+[ext_resource type="Texture2D" uid="uid://c7i43olqoqc6a" path="res://assets/gameover.png" id="2_fcwu3"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d4un0"]
 texture = ExtResource("2_5rjp3")
@@ -29,11 +30,18 @@ func _process(delta: float) -> void:
 [node name="gameover" type="CanvasLayer"]
 script = ExtResource("1_apjk0")
 
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = 27.0
+offset_top = -77.0
+offset_right = 2075.0
+offset_bottom = 1075.0
+texture = ExtResource("2_fcwu3")
+
 [node name="RestartButton" type="Button" parent="."]
-offset_left = 50.0
-offset_top = 50.0
-offset_right = 350.0
-offset_bottom = 150.0
+offset_left = 773.0
+offset_top = 764.0
+offset_right = 1073.0
+offset_bottom = 864.0
 theme_override_styles/hover = SubResource("StyleBoxTexture_d4un0")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_7f54m")
 theme_override_styles/normal = SubResource("StyleBoxTexture_v6kae")

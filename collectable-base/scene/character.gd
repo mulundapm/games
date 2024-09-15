@@ -1,9 +1,9 @@
 extends CharacterBody2D
 
 const SPEED = 700.0
-const JUMP_VELOCITY = -1200.0
+const JUMP_VELOCITY = -1000.0
 const START_POSITION = Vector2(100,100)
-const GRAVITY = 1500
+const GRAVITY = 1000
 
 func _ready():
 	reset()

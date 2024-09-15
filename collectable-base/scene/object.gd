@@ -3,6 +3,7 @@ var DROP_SPEED = randi_range(5,7)
 
 signal collected
 signal disappear
+
 # Called when the node enters the scene tree for the first time.
 func _process(delta):
 	if is_instance_valid(Area2D):
@@ -15,13 +16,13 @@ func is_on_floor_or_platform():
 			return true
 	
 func _on_body_entered(body):
-	if body.name == "CharacterBody2D":
-		collected.emit()
-		queue_free()
+	if get_parent().game_running == true:
+		if body.name == "CharacterBody2D":
+			collected.emit()
+			queue_free()
 	if is_on_floor_or_platform():
 		$DisappearTimer.start()
 	
-
 func _on_disappear_timer_timeout() -> void:
 	disappear.emit()
 	queue_free()
